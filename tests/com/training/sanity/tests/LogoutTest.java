@@ -11,15 +11,18 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.training.generics.ScreenShot;
+import com.training.logout.Logout;
 import com.training.pom.LoginPOM;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
-public class LoginTests {
+public class LogoutTest {
 
 	private WebDriver driver;
 	private String baseUrl;
-	private LoginPOM loginPOM;
+	private String userName;
+	private String password;
+	private Logout logout;
 	private static Properties properties;
 	private ScreenShot screenShot;
 
@@ -33,8 +36,10 @@ public class LoginTests {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = DriverFactory.getDriver(DriverNames.CHROME);
-		loginPOM = new LoginPOM(driver); 
+		logout = new Logout(driver); 
 		baseUrl = properties.getProperty("baseURL");
+		userName = properties.getProperty("userName");
+		password = properties.getProperty("password");
 		screenShot = new ScreenShot(driver); 
 		// open the browser 
 		driver.get(baseUrl);
@@ -47,11 +52,13 @@ public class LoginTests {
 	}
 	@Test
 	public void validLoginTest() {
-		loginPOM.sendUserName("janedave");
-		loginPOM.sendPassword("welcome2ibm");
-		loginPOM.clickLoginBtn(); 
-		loginPOM.loginImageClick();
-		loginPOM.logoutClick();
-		screenShot.captureScreenShot("ELTC_015");	
+		logout.sendUserName(userName);
+		logout.sendPassword(password);
+		logout.clickLoginBtn(); 
+		logout.loginImageClick();
+		logout.logoutClick();
+		screenShot.captureScreenShot("ELTC_015");
+	
+		
 	}
 }

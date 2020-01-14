@@ -10,16 +10,19 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.training.courseDetails.CourseDetails;
+import com.training.coursecatalog.CourseCatalog;
 import com.training.generics.ScreenShot;
-import com.training.pom.LoginPOM;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
-public class LoginTests {
+public class CourseDetailsTest {
 
 	private WebDriver driver;
 	private String baseUrl;
-	private LoginPOM loginPOM;
+	private String userName;
+	private String password;
+	private CourseDetails courseDetails;
 	private static Properties properties;
 	private ScreenShot screenShot;
 
@@ -33,25 +36,30 @@ public class LoginTests {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = DriverFactory.getDriver(DriverNames.CHROME);
-		loginPOM = new LoginPOM(driver); 
+		courseDetails = new CourseDetails(driver);
 		baseUrl = properties.getProperty("baseURL");
-		screenShot = new ScreenShot(driver); 
-		// open the browser 
+		userName = properties.getProperty("userName");
+		password = properties.getProperty("password");
+		screenShot = new ScreenShot(driver);
+		// open the browser
 		driver.get(baseUrl);
 	}
-	
+
 	@AfterMethod
 	public void tearDown() throws Exception {
 		Thread.sleep(1000);
 		driver.quit();
 	}
+
 	@Test
 	public void validLoginTest() {
-		loginPOM.sendUserName("janedave");
-		loginPOM.sendPassword("welcome2ibm");
-		loginPOM.clickLoginBtn(); 
-		loginPOM.loginImageClick();
-		loginPOM.logoutClick();
-		screenShot.captureScreenShot("ELTC_015");	
+		courseDetails.sendUserName(userName);
+		courseDetails.sendPassword(password);
+		courseDetails.clickLoginBtn();
+		courseDetails.myCourseClick();
+		courseDetails.subscribedClick();
+		courseDetails.courseDescriptionClick();
+		screenShot.captureScreenShot("ELTC_014");
+
 	}
 }

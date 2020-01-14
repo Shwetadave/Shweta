@@ -9,17 +9,18 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+import com.training.coursecatalog.CourseCatalog;
 import com.training.generics.ScreenShot;
-import com.training.pom.LoginPOM;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
-public class CourseCatalog {
+public class CourseCatalogTest {
 
 	private WebDriver driver;
 	private String baseUrl;
-	private LoginPOM loginPOM;
+	private String userName;
+	private String password;
+	private CourseCatalog courseCatalog;
 	private static Properties properties;
 	private ScreenShot screenShot;
 
@@ -33,8 +34,10 @@ public class CourseCatalog {
 	@BeforeMethod
 	public void setUp() throws Exception {
 		driver = DriverFactory.getDriver(DriverNames.CHROME);
-		loginPOM = new LoginPOM(driver); 
+		courseCatalog = new CourseCatalog(driver);
 		baseUrl = properties.getProperty("baseURL");
+		userName = properties.getProperty("userName");
+		password = properties.getProperty("password");
 		screenShot = new ScreenShot(driver); 
 		// open the browser 
 		driver.get(baseUrl);
@@ -47,9 +50,13 @@ public class CourseCatalog {
 	}
 	@Test
 	public void validLoginTest() {
-		loginPOM.sendUserName("admin");
-		loginPOM.sendPassword("admin@123");
-		loginPOM.clickLoginBtn(); 
-		screenShot.captureScreenShot("First");
+		courseCatalog.sendUserName(userName);
+		courseCatalog.sendPassword(password);
+		courseCatalog.clickLoginBtn(); 
+		courseCatalog.clickcourseCatalogBtn();
+		courseCatalog.searchCatalogSearchText("cour8022");
+		courseCatalog.searchBtn();
+		courseCatalog.subscribeClick();
+		screenShot.captureScreenShot("ELTC_013");
 	}
 }
